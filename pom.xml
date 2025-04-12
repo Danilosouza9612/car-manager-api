@@ -8,7 +8,7 @@
 		<version>3.4.4</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com</groupId>
+	<groupId>com.car.manager</groupId>
 	<artifactId>Car-Manager</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
@@ -23,6 +23,7 @@
 	</developers>
 	<modules>
 		<module>car-manager-api</module>
+		<module>car-manager-repository</module>
 	</modules>
 	<scm>
 		<connection/>
@@ -38,7 +39,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
@@ -63,18 +63,6 @@
 							<artifactId>lombok</artifactId>
 						</path>
 					</annotationProcessorPaths>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-				<configuration>
-					<excludes>
-						<exclude>
-							<groupId>org.projectlombok</groupId>
-							<artifactId>lombok</artifactId>
-						</exclude>
-					</excludes>
 				</configuration>
 			</plugin>
 		</plugins>
