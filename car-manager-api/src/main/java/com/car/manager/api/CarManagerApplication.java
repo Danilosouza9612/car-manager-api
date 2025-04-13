@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "com.car.manager")
 @EnableJpaRepositories("com.car.manager.repository.db")
 @EntityScan("com.car.manager.repository.schema")
 public class CarManagerApplication {
