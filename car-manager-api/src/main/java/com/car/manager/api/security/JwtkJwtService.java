@@ -2,6 +2,10 @@ package com.car.manager.api.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTDecodeException;
+import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.exceptions.TokenExpiredException;
+import com.car.manager.api.exception.InvalidTokenException;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
@@ -25,11 +29,15 @@ public class JwtkJwtService implements JwtService{
 
     @Override
     public String decode(String token) {
-        return JWT.require(algorithm)
-                .withIssuer(ISSUER)
-                .build()
-                .verify(token)
-                .getSubject();
+        try {
+            return JWT.require(algorithm)
+                    .withIssuer(ISSUER)
+                    .build()
+                    .verify(token)
+                    .getSubject();
+        }catch (JWTVerificationException ex){
+            throw new InvalidTokenException();
+        }
     }
 
     private Instant creationDate(){

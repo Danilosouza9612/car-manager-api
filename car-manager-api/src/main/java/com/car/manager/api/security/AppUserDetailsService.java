@@ -1,6 +1,5 @@
 package com.car.manager.api.security;
 
-import com.car.manager.api.exception.InvalidLoginException;
 import com.car.manager.core.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,6 +19,6 @@ public class AppUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
-        return userService.findByLogin(login).map(AppUserDetails::new).orElseThrow(InvalidLoginException::new);
+        return userService.findByLogin(login).map(AppUserDetails::new).orElse(null);
     }
 }
