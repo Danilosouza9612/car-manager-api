@@ -13,25 +13,24 @@ public class UserSchema {
     @GeneratedValue
     private long id;
 
-    @Column
+    @Column(length = 25)
     private String firstName;
 
-    @Column
+    @Column(length = 25)
     private String lastName;
 
-    @Column
+    @Column(length = 50)
     private String email;
 
-    @Column
+    @Column(length = 25, unique = true)
     private String login;
 
     @Column
     private LocalDate birthday;
 
-    @Column
     private String password;
 
-    @Column
+    @Column(length = 11)
     private String phone;
 
     public long getId() {

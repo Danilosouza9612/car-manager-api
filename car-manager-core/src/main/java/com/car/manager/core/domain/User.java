@@ -2,7 +2,7 @@ package com.car.manager.core.domain;
 
 import java.time.LocalDate;
 
-public class User {
+public class User implements Domain<Long>{
 
     private long id;
 
@@ -20,11 +20,24 @@ public class User {
 
     private String phone;
 
-    public long getId() {
+    public User() {}
+
+    public User(long id, String firstName, String lastName, String login, String email, String password, LocalDate birthday, String phone) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.login = login;
+        this.email = email;
+        this.password = password;
+        this.birthday = birthday;
+        this.phone = phone;
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
