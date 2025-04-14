@@ -1,9 +1,7 @@
 package com.car.manager.core.service;
 
 import com.car.manager.core.domain.User;
-import com.car.manager.core.dto.user.MeDTO;
-import com.car.manager.core.dto.user.UserCreationRequestDTO;
-import com.car.manager.core.dto.user.UserDTO;
+import com.car.manager.core.dto.user.*;
 import com.car.manager.core.exception.InstanceNotFoundException;
 import com.car.manager.core.exception.UniqueValueException;
 import com.car.manager.core.gateway.UserGateway;
@@ -25,22 +23,22 @@ public class UserService {
         this.gateway = gateway;
     }
 
-    public UserDTO create(UserCreationRequestDTO requestDTO) {
+    public UserFullDTO create(UserCreationRequestDTO requestDTO) {
         if(gateway.existsByLogin(requestDTO.getLogin())) throw new UniqueValueException("login");
         return mapper.toUserFullDto(gateway.create(mapper.toUserFromCreationDto(requestDTO)));
     }
 
-    public UserDTO read(Long id) {
+    public UserResponseDTO read(Long id) {
         User user = findByIdOrThrowNotFoundException(id);
 
         return mapper.toDto(user);
     }
 
-    public List<UserDTO> list(int page, int perPage) {
+    public List<UserResponseDTO> list(int page, int perPage) {
         return gateway.findAll(page, perPage).stream().map(mapper::toDto).toList();
     }
 
-    public UserDTO update(Long id, UserDTO requestDTO) {
+    public UserResponseDTO update(Long id, UserDTO requestDTO) {
         findByIdOrThrowNotFoundException(id);
         User user = mapper.toDomain(requestDTO);
         user.setId(id);

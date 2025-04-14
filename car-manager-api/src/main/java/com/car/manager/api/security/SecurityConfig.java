@@ -34,6 +34,8 @@ public class SecurityConfig {
         ApiEntryPoint apiEntryPoint = new ApiEntryPoint(mapper);
 
         return httpSecurity
+                .cors(AbstractHttpConfigurer::disable)
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
                         (auth) -> auth.requestMatchers("/error").permitAll()
                                 .requestMatchers(HttpMethod.POST,"/api/users").permitAll()
@@ -41,13 +43,13 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.DELETE, "/api/users/{id}").permitAll()
                                 .requestMatchers(HttpMethod.PUT, "/api/users/{id}").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/users").permitAll()
+                                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .addFilterAt(new JwtAuthenticationFilter(apiEntryPoint, authenticationManager, mapper, jwtService), BasicAuthenticationFilter.class)
                 .addFilterBefore(new JwtAuthorizationFilter(jwtService, appUserDetailsService, apiEntryPoint), BasicAuthenticationFilter.class)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .httpBasic(AbstractHttpConfigurer::disable)
-                .csrf(AbstractHttpConfigurer::disable)
                 .build();
     }
 
