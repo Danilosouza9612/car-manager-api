@@ -4,7 +4,7 @@ import com.car.manager.core.dto.car.CarDTO;
 
 import java.util.List;
 
-public class UserCreationResponseDTO extends UserDTO{
+public class UserFullDTO extends UserDTO{
 
     private List<CarDTO> cars;
 

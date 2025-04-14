@@ -1,6 +1,7 @@
 package com.car.manager.repository.schema;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -31,8 +32,13 @@ public class UserSchema {
     @Column(length = 11)
     private String phone;
 
-    @OneToMany(mappedBy = "userSchema", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "userSchema", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<CarSchema> cars;
+
+    private LocalDate lastLogin;
+
+    @CreationTimestamp
+    private LocalDate createdAt;;
 
     public long getId() {
         return id;
@@ -104,5 +110,21 @@ public class UserSchema {
 
     public void setCars(List<CarSchema> cars) {
         this.cars = cars;
+    }
+
+    public LocalDate getLastLogin() {
+        return lastLogin;
+    }
+
+    public void setLastLogin(LocalDate lastLogin) {
+        this.lastLogin = lastLogin;
+    }
+
+    public LocalDate getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDate createdAt) {
+        this.createdAt = createdAt;
     }
 }

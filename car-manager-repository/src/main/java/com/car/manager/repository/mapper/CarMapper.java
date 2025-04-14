@@ -17,6 +17,7 @@ public abstract class CarMapper implements DomainSchemaMapper<Car, CarSchema> {
     protected UserRepository userRepository;
 
     @Mapping(source = "userSchema", target = "user")
+    @Mapping(target = "user.cars", ignore = true)
     public abstract Car toDomain(CarSchema requestDto);
 
     @Mapping(source = "user", target = "userSchema", qualifiedByName = "mapLoginToUserSchema")

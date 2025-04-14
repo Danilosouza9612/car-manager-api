@@ -3,6 +3,7 @@ package com.car.manager.core.service;
 import com.car.manager.core.domain.User;
 import com.car.manager.core.dto.user.UserCreationRequestDTO;
 import com.car.manager.core.dto.user.UserDTO;
+import com.car.manager.core.dto.user.UserFullDTO;
 import com.car.manager.core.exception.InstanceNotFoundException;
 import com.car.manager.core.exception.UniqueValueException;
 import com.car.manager.core.gateway.UserGateway;
@@ -26,7 +27,7 @@ public class UserService {
 
     public UserDTO create(UserCreationRequestDTO requestDTO) {
         if(gateway.existsByLogin(requestDTO.getLogin())) throw new UniqueValueException("login");
-        return mapper.toUserCreationResponseDtoFromUser(gateway.create(mapper.toUserFromCreationDto(requestDTO)));
+        return mapper.toUserFullDto(gateway.create(mapper.toUserFromCreationDto(requestDTO)));
     }
 
     public UserDTO read(Long id) {
@@ -55,6 +56,10 @@ public class UserService {
 
     public Optional<User> findByLogin(String login){
         return gateway.findByLogin(login);
+    }
+
+    public UserFullDTO me(String login){
+        return gateway.findFullByLogin(login).map(mapper::toUserFullDto).orElseThrow(InstanceNotFoundException::new);
     }
 
     private User findByIdOrThrowNotFoundException(Long id){

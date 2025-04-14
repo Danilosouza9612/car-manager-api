@@ -23,6 +23,10 @@ public class User implements Domain<Long>{
 
     private List<Car> cars;
 
+    private LocalDate createdAt;
+
+    private LocalDate lastLogin;
+
     public User() {}
 
     public User(long id, String firstName, String lastName, String login, String email, String password, LocalDate birthday, String phone) {
@@ -106,5 +110,21 @@ public class User implements Domain<Long>{
 
     public void setCars(List<Car> cars) {
         this.cars = cars;
+    }
+
+    public LocalDate getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDate createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDate getLastLogin() {
+        return lastLogin;
+    }
+
+    public void setLastLogin(LocalDate lastLogin) {
+        this.lastLogin = lastLogin;
     }
 }

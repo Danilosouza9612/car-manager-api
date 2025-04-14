@@ -52,6 +52,11 @@ public class UserGatewayImpl extends BaseGatewayImpl<User, UserSchema, Long, Use
     }
 
     @Override
+    public Optional<User> findFullByLogin(String login) {
+        return repository.findByLogin(login).map(mapper::toDomain);
+    }
+
+    @Override
     public boolean existsByLogin(String login) {
         return repository.existsByLogin(login);
     }
