@@ -1,6 +1,7 @@
 package com.car.manager.core.mapper;
 
 import com.car.manager.core.domain.User;
+import com.car.manager.core.dto.user.MeDTO;
 import com.car.manager.core.dto.user.UserCreationRequestDTO;
 import com.car.manager.core.dto.user.UserFullDTO;
 import com.car.manager.core.dto.user.UserDTO;
@@ -12,4 +13,6 @@ public interface UserDTOMapper extends DomainDTOMapper<User, UserDTO, UserDTO> {
     User toUserFromCreationDto(UserCreationRequestDTO requestDTO);
 
     UserFullDTO toUserFullDto(User user);
+
+    MeDTO toMeDto(User user);
 }

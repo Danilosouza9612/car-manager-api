@@ -1,6 +1,7 @@
 package com.car.manager.core.domain;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class User implements Domain<Long>{
@@ -23,9 +24,9 @@ public class User implements Domain<Long>{
 
     private List<Car> cars;
 
-    private LocalDate createdAt;
+    private LocalDateTime createdAt;
 
-    private LocalDate lastLogin;
+    private LocalDateTime lastLogin;
 
     public User() {}
 
@@ -112,19 +113,23 @@ public class User implements Domain<Long>{
         this.cars = cars;
     }
 
-    public LocalDate getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDate createdAt) {
+    public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
-    public LocalDate getLastLogin() {
+    public LocalDateTime getLastLogin() {
         return lastLogin;
     }
 
-    public void setLastLogin(LocalDate lastLogin) {
+    public void setLastLogin(LocalDateTime lastLogin) {
         this.lastLogin = lastLogin;
+    }
+
+    public void updateLastLogin(){
+        setLastLogin(LocalDateTime.now());
     }
 }

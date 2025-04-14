@@ -1,25 +1,25 @@
 package com.car.manager.core.dto.user;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class MeDTO extends UserFullDTO{
-    private LocalDate lastLogin;
+    private LocalDateTime lastLogin;
 
-    private LocalDate createdAt;
+    private LocalDateTime createdAt;
 
-    public LocalDate getLastLogin() {
+    public LocalDateTime getLastLogin() {
         return lastLogin;
     }
 
-    public void setLastLogin(LocalDate lastLogin) {
+    public void setLastLogin(LocalDateTime lastLogin) {
         this.lastLogin = lastLogin;
     }
 
-    public LocalDate getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDate createdAt) {
+    public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 }

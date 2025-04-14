@@ -1,19 +1,21 @@
 package com.car.manager.api.security;
 
+import com.car.manager.core.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.DefaultSecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 @Configuration
@@ -59,4 +61,17 @@ public class SecurityConfig {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
+    @Bean
+    public DaoAuthenticationProvider daoAuthenticationProvider(
+            PasswordEncoder passwordEncoder,
+            UserDetailsService userDetailsService,
+            UserService userService
+    ) {
+        AppDaoAuthenticationProvider appDaoAuthenticationProvider = new AppDaoAuthenticationProvider();
+        appDaoAuthenticationProvider.setUserDetailsService(userDetailsService);
+        appDaoAuthenticationProvider.setPasswordEncoder(passwordEncoder);
+        appDaoAuthenticationProvider.setUserService(userService);
+
+        return appDaoAuthenticationProvider;
+    }
 }

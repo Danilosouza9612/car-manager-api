@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -35,10 +36,10 @@ public class UserSchema {
     @OneToMany(mappedBy = "userSchema", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<CarSchema> cars;
 
-    private LocalDate lastLogin;
+    private LocalDateTime lastLogin;
 
     @CreationTimestamp
-    private LocalDate createdAt;;
+    private LocalDateTime createdAt;;
 
     public long getId() {
         return id;
@@ -112,19 +113,19 @@ public class UserSchema {
         this.cars = cars;
     }
 
-    public LocalDate getLastLogin() {
+    public LocalDateTime getLastLogin() {
         return lastLogin;
     }
 
-    public void setLastLogin(LocalDate lastLogin) {
+    public void setLastLogin(LocalDateTime lastLogin) {
         this.lastLogin = lastLogin;
     }
 
-    public LocalDate getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDate createdAt) {
+    public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 }

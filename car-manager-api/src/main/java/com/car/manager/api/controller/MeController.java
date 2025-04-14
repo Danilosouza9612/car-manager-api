@@ -1,5 +1,6 @@
 package com.car.manager.api.controller;
 
+import com.car.manager.core.dto.user.MeDTO;
 import com.car.manager.core.dto.user.UserFullDTO;
 import com.car.manager.core.service.UserService;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,7 @@ public class MeController {
     }
 
     @GetMapping
-    public ResponseEntity<UserFullDTO> me(){
+    public ResponseEntity<MeDTO> me(){
         return ResponseEntity.ok(
                 userService.me((String)SecurityContextHolder.getContext().getAuthentication().getPrincipal())
         );

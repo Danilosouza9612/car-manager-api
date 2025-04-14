@@ -1,9 +1,9 @@
 package com.car.manager.core.service;
 
 import com.car.manager.core.domain.User;
+import com.car.manager.core.dto.user.MeDTO;
 import com.car.manager.core.dto.user.UserCreationRequestDTO;
 import com.car.manager.core.dto.user.UserDTO;
-import com.car.manager.core.dto.user.UserFullDTO;
 import com.car.manager.core.exception.InstanceNotFoundException;
 import com.car.manager.core.exception.UniqueValueException;
 import com.car.manager.core.gateway.UserGateway;
@@ -58,8 +58,14 @@ public class UserService {
         return gateway.findByLogin(login);
     }
 
-    public UserFullDTO me(String login){
-        return gateway.findFullByLogin(login).map(mapper::toUserFullDto).orElseThrow(InstanceNotFoundException::new);
+    public void updateLogin(String login){
+        User user = gateway.findByLogin(login).orElseThrow(InstanceNotFoundException::new);
+        user.updateLastLogin();
+        gateway.save(user);
+    }
+
+    public MeDTO me(String login){
+        return gateway.findFullByLogin(login).map(mapper::toMeDto).orElseThrow(InstanceNotFoundException::new);
     }
 
     private User findByIdOrThrowNotFoundException(Long id){
