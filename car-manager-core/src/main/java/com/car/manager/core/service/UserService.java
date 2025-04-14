@@ -24,22 +24,22 @@ public class UserService {
         this.gateway = gateway;
     }
 
-    public UserDTO createUser(UserCreationRequestDTO requestDTO) {
+    public UserDTO create(UserCreationRequestDTO requestDTO) {
         if(gateway.existsByLogin(requestDTO.getLogin())) throw new UniqueValueException("login");
-        return mapper.toDto(gateway.save(mapper.toUserFromCreationDto(requestDTO)));
+        return mapper.toUserCreationResponseDtoFromUser(gateway.create(mapper.toUserFromCreationDto(requestDTO)));
     }
 
-    public UserDTO getUserById(Long id) {
+    public UserDTO read(Long id) {
         User user = findByIdOrThrowNotFoundException(id);
 
         return mapper.toDto(user);
     }
 
-    public List<UserDTO> getAllUsers(int page, int perPage) {
+    public List<UserDTO> list(int page, int perPage) {
         return gateway.findAll(page, perPage).stream().map(mapper::toDto).toList();
     }
 
-    public UserDTO updateUser(Long id, UserDTO requestDTO) {
+    public UserDTO update(Long id, UserDTO requestDTO) {
         findByIdOrThrowNotFoundException(id);
         User user = mapper.toDomain(requestDTO);
         user.setId(id);
@@ -47,7 +47,7 @@ public class UserService {
         return mapper.toDto(gateway.save(user));
     }
 
-    public void deleteUser(Long id) {
+    public void delete(Long id) {
         findByIdOrThrowNotFoundException(id);
 
         gateway.delete(id);

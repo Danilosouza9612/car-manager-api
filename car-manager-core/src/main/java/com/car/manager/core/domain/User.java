@@ -1,10 +1,11 @@
 package com.car.manager.core.domain;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class User implements Domain<Long>{
 
-    private long id;
+    private Long id;
 
     private String firstName;
 
@@ -19,6 +20,8 @@ public class User implements Domain<Long>{
     private String password;
 
     private String phone;
+
+    private List<Car> cars;
 
     public User() {}
 
@@ -95,5 +98,13 @@ public class User implements Domain<Long>{
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public List<Car> getCars() {
+        return cars;
+    }
+
+    public void setCars(List<Car> cars) {
+        this.cars = cars;
     }
 }

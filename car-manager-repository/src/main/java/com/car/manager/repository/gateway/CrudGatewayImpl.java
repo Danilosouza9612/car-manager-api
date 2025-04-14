@@ -31,6 +31,11 @@ public abstract class CrudGatewayImpl<D, S, I, M extends DomainSchemaMapper<D, S
     }
 
     @Override
+    public D create(D instance) {
+        return mapper.toDomain(repository.save(mapper.toSchema(instance)));
+    }
+
+    @Override
     public D save(D instance) {
         return mapper.toDomain(repository.save(mapper.toSchema(instance)));
     }

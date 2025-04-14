@@ -1,11 +1,9 @@
 package com.car.manager.repository.schema;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 public class UserSchema {
@@ -32,6 +30,9 @@ public class UserSchema {
 
     @Column(length = 11)
     private String phone;
+
+    @OneToMany(mappedBy = "userSchema", cascade = CascadeType.PERSIST)
+    private List<CarSchema> cars;
 
     public long getId() {
         return id;
@@ -95,5 +96,13 @@ public class UserSchema {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public List<CarSchema> getCars() {
+        return cars;
+    }
+
+    public void setCars(List<CarSchema> cars) {
+        this.cars = cars;
     }
 }

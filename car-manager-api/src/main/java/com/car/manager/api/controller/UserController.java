@@ -24,12 +24,12 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<UserDTO> createUser(@Valid @RequestBody UserCreationRequestDTO userDTO) {
-        return ResponseEntity.ok(userService.createUser(userDTO));
+        return ResponseEntity.ok(userService.create(userDTO));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<UserDTO> getUserById(@PathVariable Long id) {
-        return ResponseEntity.ok(userService.getUserById(id));
+        return ResponseEntity.ok(userService.read(id));
     }
 
     @GetMapping
@@ -37,17 +37,17 @@ public class UserController {
             @RequestParam(name = "page", defaultValue = "0") int page,
             @RequestParam(name = "per_page", defaultValue = "10") int perPage
     ) {
-        return ResponseEntity.ok(userService.getAllUsers(page, perPage));
+        return ResponseEntity.ok(userService.list(page, perPage));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<UserDTO> updateUser(@PathVariable Long id, @RequestBody @Valid UserDTO userDTO) {
-        return ResponseEntity.ok(userService.updateUser(id, userDTO));
+        return ResponseEntity.ok(userService.update(id, userDTO));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
-        userService.deleteUser(id);
+        userService.delete(id);
         return ResponseEntity.noContent().build();
     }
 }
