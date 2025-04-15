@@ -1,11 +1,10 @@
 package com.car.manager.core.service;
 
 import com.car.manager.core.domain.Domain;
+import com.car.manager.core.dto.PageContent;
 import com.car.manager.core.exception.InstanceNotFoundException;
 import com.car.manager.core.gateway.CrudGateway;
 import com.car.manager.core.mapper.DomainDTOMapper;
-
-import java.util.List;
 
 public abstract class CrudService<D extends Domain<ID>, ID, G extends CrudGateway<D, ID>, I, O, M extends DomainDTOMapper<D, I, O>> {
 
@@ -18,8 +17,8 @@ public abstract class CrudService<D extends Domain<ID>, ID, G extends CrudGatewa
         this.mapper = mapper;
     }
 
-    public List<O> list(int page, int perPage){
-        return gateway.findAll(page, perPage).stream().map(mapper::toDto).toList();
+    public PageContent<O> list(int page, int perPage){
+        return gateway.findAll(page, perPage).map(mapper::toDto);
     }
 
     public O create(I requestDto){

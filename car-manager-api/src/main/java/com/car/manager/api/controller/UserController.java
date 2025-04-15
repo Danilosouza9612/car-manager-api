@@ -1,17 +1,15 @@
 package com.car.manager.api.controller;
 
+import com.car.manager.core.dto.PageContent;
 import com.car.manager.core.dto.user.UserCreationRequestDTO;
 import com.car.manager.core.dto.user.UserDTO;
 import com.car.manager.core.dto.user.UserFullDTO;
 import com.car.manager.core.dto.user.UserResponseDTO;
 import com.car.manager.core.service.UserService;
 import jakarta.validation.Valid;
-import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
@@ -36,7 +34,7 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<UserResponseDTO>> getAllUsers(
+    public ResponseEntity<PageContent<UserResponseDTO>> getAllUsers(
             @RequestParam(name = "page", defaultValue = "0") int page,
             @RequestParam(name = "per_page", defaultValue = "10") int perPage
     ) {

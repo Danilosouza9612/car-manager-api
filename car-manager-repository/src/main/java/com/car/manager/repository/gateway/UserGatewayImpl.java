@@ -1,10 +1,12 @@
 package com.car.manager.repository.gateway;
 
 import com.car.manager.core.domain.User;
+import com.car.manager.core.dto.PageContent;
 import com.car.manager.core.gateway.UserGateway;
 import com.car.manager.repository.db.UserRepository;
 import com.car.manager.repository.mapper.UserMapper;
 import com.car.manager.repository.schema.UserSchema;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
@@ -24,11 +26,8 @@ public class UserGatewayImpl extends BaseGatewayImpl<User, UserSchema, Long, Use
     }
 
     @Override
-    public List<User> findAll(int page, int perPage) {
-        return repository.findAll(PageRequest.of(page, perPage))
-                .stream()
-                .map(mapper::toDomainWithoutCars)
-                .toList();
+    public PageContent<User> findAll(int page, int perPage) {
+        return this.ToPageContent(repository.findAll(PageRequest.of(page, perPage)));
     }
 
     @Override
@@ -59,5 +58,10 @@ public class UserGatewayImpl extends BaseGatewayImpl<User, UserSchema, Long, Use
     @Override
     public boolean existsByLogin(String login) {
         return repository.existsByLogin(login);
+    }
+
+    @Override
+    List<User> itemsFromJpaPage(Page<UserSchema> page) {
+        return page.map(mapper::toDomainWithoutCars).toList();
     }
 }

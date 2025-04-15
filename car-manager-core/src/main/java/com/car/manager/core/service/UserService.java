@@ -1,6 +1,7 @@
 package com.car.manager.core.service;
 
 import com.car.manager.core.domain.User;
+import com.car.manager.core.dto.PageContent;
 import com.car.manager.core.dto.user.*;
 import com.car.manager.core.exception.InstanceNotFoundException;
 import com.car.manager.core.exception.UniqueValueException;
@@ -8,7 +9,6 @@ import com.car.manager.core.gateway.UserGateway;
 import com.car.manager.core.mapper.UserDTOMapper;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -34,8 +34,8 @@ public class UserService {
         return mapper.toDto(user);
     }
 
-    public List<UserResponseDTO> list(int page, int perPage) {
-        return gateway.findAll(page, perPage).stream().map(mapper::toDto).toList();
+    public PageContent<UserResponseDTO> list(int page, int perPage) {
+        return gateway.findAll(page, perPage).map(mapper::toDto);
     }
 
     public UserResponseDTO update(Long id, UserDTO requestDTO) {

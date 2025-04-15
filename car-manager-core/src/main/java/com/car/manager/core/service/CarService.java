@@ -2,14 +2,13 @@ package com.car.manager.core.service;
 
 import com.car.manager.core.domain.Car;
 import com.car.manager.core.domain.User;
+import com.car.manager.core.dto.PageContent;
 import com.car.manager.core.dto.car.CarDTO;
 import com.car.manager.core.dto.car.CarResponseDTO;
 import com.car.manager.core.exception.InstanceNotFoundException;
 import com.car.manager.core.gateway.CarGateway;
 import com.car.manager.core.mapper.CarDTOMapper;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class CarService {
@@ -22,8 +21,8 @@ public class CarService {
         this.mapper = mapper;
     }
 
-    public List<CarResponseDTO> list(int page, int perPage, String login){
-        return gateway.findAll(page, perPage, login).stream().map(mapper::toDto).toList();
+    public PageContent<CarResponseDTO> list(int page, int perPage, String login){
+        return gateway.findAll(page, perPage, login).map(mapper::toDto);
     }
 
     public CarResponseDTO create(CarDTO requestDto, String login){

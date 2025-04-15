@@ -1,5 +1,6 @@
 package com.car.manager.api.controller;
 
+import com.car.manager.core.dto.PageContent;
 import com.car.manager.core.dto.car.CarDTO;
 import com.car.manager.core.dto.car.CarResponseDTO;
 import com.car.manager.core.service.CarService;
@@ -8,8 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/cars")
@@ -32,7 +31,7 @@ public class CarController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CarResponseDTO>> list(
+    public ResponseEntity<PageContent<CarResponseDTO>> list(
             @RequestParam(name = "page", defaultValue = "0") int page,
             @RequestParam(name = "per_page", defaultValue = "10") int perPage
     ) {
