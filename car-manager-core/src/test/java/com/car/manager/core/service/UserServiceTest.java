@@ -64,6 +64,15 @@ public class UserServiceTest {
     }
 
     @Test
+    public void  notCreate_WhenEmailExists(){
+        User user = mockUserInstance();
+        when(gateway.existsByEmail(eq(user.getEmail()))).thenReturn(true);
+        UserCreationRequestDTO request = mapper.toUserCreationRequestDTO(user);
+
+        assertThrows(UniqueValueException.class, () -> subject.create(request));
+    }
+
+    @Test
     public void update_WhenItValid(){
         User user = mockUserInstance();
         when(gateway.save(any(User.class))).thenReturn(user);
@@ -78,10 +87,21 @@ public class UserServiceTest {
     @Test
     public void notUpdate_WhenNotFound(){
         User user = mockUserInstance();
+
         when(gateway.findById(eq(user.getId()))).thenReturn(Optional.empty());
         UserCreationRequestDTO request = mapper.toUserCreationRequestDTO(user);
 
         assertThrows(InstanceNotFoundException.class, () -> subject.update(user.getId(), request));
+    }
+
+    @Test
+    public void notUpdate_WhenEmailExists(){
+        User user = mockUserInstance();
+        UserCreationRequestDTO request = mapper.toUserCreationRequestDTO(user);
+        when(gateway.findById(eq(user.getId()))).thenReturn(Optional.of(user));
+        when(gateway.existsByEmail(eq(request.getEmail()))).thenReturn(true);
+
+        assertThrows(UniqueValueException.class, () -> subject.update(user.getId(), request));
     }
 
     @Test

@@ -27,7 +27,7 @@ public class CarGatewayImpl extends BaseGatewayImpl<Car, CarSchema, Long, CarRep
 
     @Override
     public boolean existsByLicensePlate(String licensePlate) {
-        return repository.existsLicensePlate(licensePlate);
+        return repository.existsByLicensePlate(licensePlate);
     }
 
     @Override

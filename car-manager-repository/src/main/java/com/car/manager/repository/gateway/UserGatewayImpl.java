@@ -65,6 +65,11 @@ public class UserGatewayImpl extends BaseGatewayImpl<User, UserSchema, Long, Use
     }
 
     @Override
+    public boolean existsByEmail(String email) {
+        return repository.existsByEmail(email);
+    }
+
+    @Override
     List<User> itemsFromJpaPage(Page<UserSchema> page) {
         return page.map(mapper::toDomainWithoutCars).toList();
     }

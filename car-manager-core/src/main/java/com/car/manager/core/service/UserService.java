@@ -28,7 +28,8 @@ public class UserService {
     }
 
     public UserFullDTO create(UserCreationRequestDTO requestDTO) {
-        if(gateway.existsByLogin(requestDTO.getLogin())) throw new UniqueValueException("login");
+        if(gateway.existsByLogin(requestDTO.getLogin())) throw new UniqueValueException("Login");
+        throwUniqueExceptionIfExistsByEmail(requestDTO.getEmail());
 
         User user = mapper.toUserFromCreationDto(requestDTO);
         user.encryptPassword(passwordEncryptor);
@@ -48,6 +49,7 @@ public class UserService {
 
     public UserResponseDTO update(Long id, UserDTO requestDTO) {
         User user = findByIdOrThrowNotFoundException(id);
+        throwUniqueExceptionIfExistsByEmail(requestDTO.getEmail());
 
         mapper.toDomainUpdate(user, requestDTO);
 
@@ -77,5 +79,9 @@ public class UserService {
     private User findByIdOrThrowNotFoundException(Long id){
         return gateway.findById(id)
                 .orElseThrow(InstanceNotFoundException::new);
+    }
+
+    private void throwUniqueExceptionIfExistsByEmail(String email){
+        if(gateway.existsByEmail(email)) throw new UniqueValueException("Email");
     }
 }

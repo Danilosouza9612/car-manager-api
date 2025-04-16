@@ -1,6 +1,6 @@
 package com.car.manager.api.security;
 
-import com.car.manager.api.dto.entrypoint.ApiEntryPointResponse;
+import com.car.manager.api.dto.exception.ErrorDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -31,11 +31,11 @@ public class ApiEntryPoint implements AuthenticationEntryPoint {
 
         if(authException instanceof InternalAuthenticationServiceException || authException instanceof BadCredentialsException)
             response.getWriter().write(
-                    mapper.writeValueAsString(new ApiEntryPointResponse("Invalid login or password", code))
+                    mapper.writeValueAsString(new ErrorDTO("Invalid login or password", code))
             );
         else
             response.getWriter().write(
-                    mapper.writeValueAsString(new ApiEntryPointResponse(authException.getLocalizedMessage(), code))
+                    mapper.writeValueAsString(new ErrorDTO(authException.getLocalizedMessage(), code))
             );
     }
 }

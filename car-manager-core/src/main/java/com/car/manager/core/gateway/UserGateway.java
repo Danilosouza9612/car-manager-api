@@ -8,4 +8,5 @@ public interface UserGateway extends CrudGateway<User, Long>{
     Optional<User> findByLogin(String login);
     Optional<User> findFullByLogin(String login);
     boolean existsByLogin(String login);
+    boolean existsByEmail(String email);
 }
