@@ -7,6 +7,7 @@ import com.car.manager.core.exception.InstanceNotFoundException;
 import com.car.manager.core.exception.UniqueValueException;
 import com.car.manager.core.gateway.UserGateway;
 import com.car.manager.core.mapper.UserDTOMapper;
+import com.car.manager.core.security.PasswordEncryptor;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -18,14 +19,21 @@ public class UserService {
 
     private final UserDTOMapper mapper;
 
-    public UserService(UserGateway gateway, UserDTOMapper mapper){
+    private final PasswordEncryptor passwordEncryptor;
+
+    public UserService(UserGateway gateway, UserDTOMapper mapper, PasswordEncryptor passwordEncryptor){
         this.mapper = mapper;
         this.gateway = gateway;
+        this.passwordEncryptor = passwordEncryptor;
     }
 
     public UserFullDTO create(UserCreationRequestDTO requestDTO) {
         if(gateway.existsByLogin(requestDTO.getLogin())) throw new UniqueValueException("login");
-        return mapper.toUserFullDto(gateway.create(mapper.toUserFromCreationDto(requestDTO)));
+
+        User user = mapper.toUserFromCreationDto(requestDTO);
+        user.encryptPassword(passwordEncryptor);
+
+        return mapper.toUserFullDto(gateway.create(user));
     }
 
     public UserResponseDTO read(Long id) {

@@ -1,5 +1,7 @@
 package com.car.manager.core.domain;
 
+import com.car.manager.core.security.PasswordEncryptor;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -131,5 +133,9 @@ public class User implements Domain<Long>{
 
     public void updateLastLogin(){
         setLastLogin(LocalDateTime.now());
+    }
+
+    public void encryptPassword(PasswordEncryptor encryptor){
+        this.setPassword(encryptor.encrypt(this.getPassword()));
     }
 }
