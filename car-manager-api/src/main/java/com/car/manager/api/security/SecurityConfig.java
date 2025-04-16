@@ -2,7 +2,6 @@ package com.car.manager.api.security;
 
 import com.car.manager.core.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -18,15 +17,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
-import java.util.Arrays;
-import java.util.List;
 
 @Configuration
 @EnableWebSecurity(debug = true)
@@ -54,6 +46,8 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.PUT, "/api/users/{id}").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/users").permitAll()
                                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                                .requestMatchers("/api-docs/**").permitAll()
+                                .requestMatchers("/swagger-ui/**").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .addFilterAt(new JwtAuthenticationFilter(apiEntryPoint, authenticationManager, mapper, jwtService), BasicAuthenticationFilter.class)

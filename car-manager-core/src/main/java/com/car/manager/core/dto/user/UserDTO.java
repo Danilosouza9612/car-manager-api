@@ -23,7 +23,7 @@ public class UserDTO{
     @NotNull
     private LocalDate birthday;
 
-    @NotBlank @Size(max = 11)
+    @NotBlank @Size(min = 10, max = 11)
     private String phone;
 
     public String getFirstName() {

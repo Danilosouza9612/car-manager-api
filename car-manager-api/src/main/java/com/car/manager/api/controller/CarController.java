@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/cars")
-public class CarController {
+public class CarController implements ICarController{
     private final CarService carService;
 
     @Autowired

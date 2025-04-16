@@ -1,7 +1,6 @@
 package com.car.manager.api.controller;
 
 import com.car.manager.core.dto.user.MeDTO;
-import com.car.manager.core.dto.user.UserFullDTO;
 import com.car.manager.core.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -11,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/me")
-public class MeController {
+public class MeController implements IMeController{
     private final UserService userService;
 
     public MeController(UserService userService){
