@@ -9,6 +9,8 @@ public interface UserDTOMapper extends DomainDTOMapper<User, UserDTO, UserRespon
 
     User toUserFromCreationDto(UserCreationRequestDTO requestDTO);
 
+    UserCreationRequestDTO toUserCreationRequestDTO(User userCreationRequestDTO);
+
     UserFullDTO toUserFullDto(User user);
 
     MeDTO toMeDto(User user);
