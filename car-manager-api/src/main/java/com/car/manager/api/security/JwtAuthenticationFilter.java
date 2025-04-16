@@ -63,6 +63,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     private void writeResponse(HttpServletResponse response, SigninResponseDTO signinResponseDTO) throws IOException {
+        response.addHeader("Access-Control-Allow-Origin", "*");
+        response.addHeader("Access-Control-Request-Headers", "*");
+        response.addHeader("Access-Control-Request-Method", "*");
+
         response.setContentType("application/json");
         response.getWriter().write(objectMapper.writeValueAsString(signinResponseDTO));
     }

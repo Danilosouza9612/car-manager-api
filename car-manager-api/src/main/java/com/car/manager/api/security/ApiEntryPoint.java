@@ -22,17 +22,20 @@ public class ApiEntryPoint implements AuthenticationEntryPoint {
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-
-        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        int code = HttpServletResponse.SC_UNAUTHORIZED;
+        response.setStatus(code);
         response.setContentType("application/json");
+        response.addHeader("Access-Control-Allow-Origin", "*");
+        response.addHeader("Access-Control-Request-Headers", "*");
+        response.addHeader("Access-Control-Request-Method", "*");
 
         if(authException instanceof InternalAuthenticationServiceException || authException instanceof BadCredentialsException)
             response.getWriter().write(
-                    mapper.writeValueAsString(new ApiEntryPointResponse("Invalid login or password"))
+                    mapper.writeValueAsString(new ApiEntryPointResponse("Invalid login or password", code))
             );
         else
             response.getWriter().write(
-                    mapper.writeValueAsString(new ApiEntryPointResponse(authException.getLocalizedMessage()))
+                    mapper.writeValueAsString(new ApiEntryPointResponse(authException.getLocalizedMessage(), code))
             );
     }
 }
