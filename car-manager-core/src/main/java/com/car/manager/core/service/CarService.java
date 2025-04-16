@@ -6,6 +6,7 @@ import com.car.manager.core.dto.PageContent;
 import com.car.manager.core.dto.car.CarDTO;
 import com.car.manager.core.dto.car.CarResponseDTO;
 import com.car.manager.core.exception.InstanceNotFoundException;
+import com.car.manager.core.exception.UniqueValueException;
 import com.car.manager.core.gateway.CarGateway;
 import com.car.manager.core.mapper.CarDTOMapper;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,7 @@ public class CarService {
     }
 
     public CarResponseDTO create(CarDTO requestDto, String login){
+        if(gateway.existsByLicensePlate(requestDto.getLicensePlate())) throw new UniqueValueException("licensePlate");
         Car car = mapper.toDomain(requestDto);
         User user = new User();
         user.setLogin(login);
@@ -40,6 +42,7 @@ public class CarService {
 
     public CarResponseDTO update(long id, CarDTO requestDto, String login){
         if(gateway.findById(id, login).isEmpty()) throw new InstanceNotFoundException();
+        if(gateway.existsByLicensePlate(requestDto.getLicensePlate())) throw new UniqueValueException("licensePlate");
 
         User user = new User();
         user.setLogin(login);

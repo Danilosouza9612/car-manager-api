@@ -16,4 +16,6 @@ public interface CarRepository extends JpaRepository<CarSchema, Long> {
 
     @Query("SELECT c FROM CarSchema c JOIN UserSchema u ON c.userSchema.id = u.id WHERE u.login = ?1")
     Page<CarSchema> findAllByLogin(String login, PageRequest pageRequest);
+
+    boolean existsLicensePlate(String licensePlate);
 }

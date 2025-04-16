@@ -9,6 +9,9 @@
     <artifactId>car-manager-repository</artifactId>
     <name>Archetype - car-manager-repository</name>
     <url>http://maven.apache.org</url>
+    <properties>
+        <instancio.version></instancio.version>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>com.h2database</groupId>

@@ -26,6 +26,11 @@ public class CarGatewayImpl extends BaseGatewayImpl<Car, CarSchema, Long, CarRep
     }
 
     @Override
+    public boolean existsByLicensePlate(String licensePlate) {
+        return repository.existsLicensePlate(licensePlate);
+    }
+
+    @Override
     public PageContent<Car> findAll(int page, int perPage, String login) {
         return ToPageContent(repository.findAllByLogin(login, PageRequest.of(page, perPage)));
     }
