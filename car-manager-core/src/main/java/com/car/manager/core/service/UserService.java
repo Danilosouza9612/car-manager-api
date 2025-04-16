@@ -47,9 +47,9 @@ public class UserService {
     }
 
     public UserResponseDTO update(Long id, UserDTO requestDTO) {
-        findByIdOrThrowNotFoundException(id);
-        User user = mapper.toDomain(requestDTO);
-        user.setId(id);
+        User user = findByIdOrThrowNotFoundException(id);
+
+        mapper.toDomainUpdate(user, requestDTO);
 
         return mapper.toDto(gateway.save(user));
     }

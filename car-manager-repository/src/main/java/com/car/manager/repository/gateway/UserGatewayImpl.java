@@ -1,12 +1,10 @@
 package com.car.manager.repository.gateway;
 
-import com.car.manager.core.domain.Car;
 import com.car.manager.core.domain.User;
 import com.car.manager.core.dto.PageContent;
 import com.car.manager.core.gateway.UserGateway;
 import com.car.manager.repository.db.UserRepository;
 import com.car.manager.repository.mapper.UserMapper;
-import com.car.manager.repository.schema.CarSchema;
 import com.car.manager.repository.schema.UserSchema;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
