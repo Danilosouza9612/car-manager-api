@@ -33,7 +33,7 @@ public class UserSchema {
     @Column(length = 11)
     private String phone;
 
-    @OneToMany(mappedBy = "userSchema", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @OneToMany(mappedBy = "userSchema", cascade = {CascadeType.ALL})
     private List<CarSchema> cars;
 
     private LocalDateTime lastLogin;

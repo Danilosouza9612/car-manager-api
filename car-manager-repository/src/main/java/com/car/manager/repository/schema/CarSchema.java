@@ -20,7 +20,7 @@ public class CarSchema {
     @Column(length = 20)
     private String color;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private UserSchema userSchema;
 
     public long getId() {
