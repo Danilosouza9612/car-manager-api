@@ -40,6 +40,7 @@
 		<jakarta.validation.version>3.1.1</jakarta.validation.version>
 		<org.instancio.version>5.4.0</org.instancio.version>
 		<org.postgresql.version>42.7.4</org.postgresql.version>
+		<org.jacoco.version>0.8.13</org.jacoco.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -108,6 +109,20 @@
 						</path>
 					</annotationProcessorPaths>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>${org.jacoco.version}</version>
+				<executions>
+					<execution>
+						<id>report-aggregate</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>report-aggregate</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

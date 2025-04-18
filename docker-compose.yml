@@ -10,8 +10,9 @@ services:
       - db
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/car_manager_db
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: example
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: 123456
+      COM_CAR_MANAGER_API_JWT_KEY: 85ewwfe64e
   db:
     image: postgres:17-alpine
     environment:
