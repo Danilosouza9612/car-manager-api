@@ -39,6 +39,7 @@
 		<mockito.core.version>5.14.2</mockito.core.version>
 		<jakarta.validation.version>3.1.1</jakarta.validation.version>
 		<org.instancio.version>5.4.0</org.instancio.version>
+		<org.postgresql.version>42.7.4</org.postgresql.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -81,6 +82,11 @@
 			<artifactId>instancio-junit</artifactId>
 			<version>${org.instancio.version}</version>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>${org.postgresql.version}</version>
 		</dependency>
 	</dependencies>
 
