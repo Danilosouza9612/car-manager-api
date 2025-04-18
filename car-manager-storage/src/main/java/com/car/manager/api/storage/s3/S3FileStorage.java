@@ -41,6 +41,7 @@ public class S3FileStorage implements FileStorage {
         try{
             PutObjectResponse response = s3Client.putObject(putObjectRequest, RequestBody.fromInputStream(inputStream, inputStream.available()));
         }catch (SdkClientException | IOException ex){
+            ex.printStackTrace();
             throw new FileStorageException();
         }
         return s3Client.utilities().getUrl((resource) -> resource.bucket(bucketName).key(key));

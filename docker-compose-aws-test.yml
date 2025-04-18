@@ -1,0 +1,14 @@
+version: "3.8"
+services:
+  app:
+    image: danilosouza1896/car-manager-app:0.0.2
+    ports:
+      - 80:80
+    networks:
+      - car-manager-net
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://car-manager-database-1.c9qegy06ax9x.eu-west-1.rds.amazonaws.com/postgres
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: Fr1da4321
+networks:
+  car-manager-net:

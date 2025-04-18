@@ -1,11 +1,25 @@
 version: "3.8"
 services:
+  app:
+    image: danilosouza1896/car-manager-app:0.0.3
+    ports:
+      - 80:80
+    networks:
+      - car-manager-net
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/car_manager_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: example
   db:
     image: postgres:17-alpine
     environment:
       POSTGRES_PASSWORD: 123456
     ports:
       - 5432:5432
+    networks:
+      - car-manager-net
 volumes:
   car-manager-db:
 networks:
