@@ -7,6 +7,10 @@ import com.car.manager.core.exception.UniqueValueException;
 import com.car.manager.core.storage.FileStorageException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -27,6 +31,15 @@ public class AppExceptionHandler {
     @ExceptionHandler(value = FileStorageException.class)
     public ResponseEntity<ErrorDTO> handleInstanceNotFoundException(FileStorageException ex){
         return new ResponseEntity<>(new ErrorDTO(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value()), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler({AuthenticationException.class})
+    public ResponseEntity<ErrorDTO> handleAuthenticationException(org.springframework.security.core.AuthenticationException authException){
+        HttpStatus code = HttpStatus.UNAUTHORIZED;
+        if(authException instanceof InternalAuthenticationServiceException || authException instanceof BadCredentialsException)
+            return new ResponseEntity<>(new ErrorDTO("Invalid login or password", code.value()),code);
+        else
+            return new ResponseEntity<>(new ErrorDTO(authException.getLocalizedMessage(), code.value()),code);
     }
 
     @ExceptionHandler(value = {MethodArgumentNotValidException.class})

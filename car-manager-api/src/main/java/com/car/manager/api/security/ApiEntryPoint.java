@@ -25,9 +25,6 @@ public class ApiEntryPoint implements AuthenticationEntryPoint {
         int code = HttpServletResponse.SC_UNAUTHORIZED;
         response.setStatus(code);
         response.setContentType("application/json");
-        response.addHeader("Access-Control-Allow-Origin", "*");
-        response.addHeader("Access-Control-Request-Headers", "*");
-        response.addHeader("Access-Control-Request-Method", "*");
 
         if(authException instanceof InternalAuthenticationServiceException || authException instanceof BadCredentialsException)
             response.getWriter().write(

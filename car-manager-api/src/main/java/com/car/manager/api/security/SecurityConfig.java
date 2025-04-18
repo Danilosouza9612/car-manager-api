@@ -17,14 +17,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity(debug = true)
 public class SecurityConfig {
 
-    public static final String SIGNIN_URL = "/api/signin";
     @Bean
     public DefaultSecurityFilterChain configure(
             HttpSecurity httpSecurity,
@@ -36,10 +36,10 @@ public class SecurityConfig {
         ApiEntryPoint apiEntryPoint = new ApiEntryPoint(mapper);
 
         return httpSecurity
-                .cors(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
                         (auth) -> auth.requestMatchers("/error").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/api/signin").permitAll()
                                 .requestMatchers(HttpMethod.POST,"/api/users").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/users/{id}").permitAll()
                                 .requestMatchers(HttpMethod.DELETE, "/api/users/{id}").permitAll()
@@ -51,7 +51,6 @@ public class SecurityConfig {
                                 .requestMatchers("/swagger-ui/**").permitAll()
                                 .anyRequest().authenticated()
                 )
-                .addFilterAt(new JwtAuthenticationFilter(apiEntryPoint, authenticationManager, mapper, jwtService), BasicAuthenticationFilter.class)
                 .addFilterBefore(new JwtAuthorizationFilter(jwtService, appUserDetailsService, apiEntryPoint), BasicAuthenticationFilter.class)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .httpBasic(AbstractHttpConfigurer::disable)
@@ -83,11 +82,15 @@ public class SecurityConfig {
     }
 
     @Bean
-    public WebMvcConfigurer corsConfiguration(){
-        return new WebMvcConfigurer(){
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**").allowedMethods("*");
-            }
-        };
+    public CorsFilter corsFilter() {
+        UrlBasedCorsConfigurationSource source =
+                new org.springframework.web.cors.UrlBasedCorsConfigurationSource();
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
+        config.addAllowedOrigin("*");
+        config.addAllowedHeader("*");
+        config.addAllowedMethod("*");
+        source.registerCorsConfiguration("/**", config);
+        return new CorsFilter(source);
     }
 }
