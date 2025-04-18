@@ -71,7 +71,6 @@ public class CarServiceTest {
         Car car = mockCarInstance();
         when(gateway.save(any(Car.class))).thenReturn(car);
         when(gateway.findById(eq(car.getId()), eq(LOGIN))).thenReturn(Optional.of(car));
-        when(gateway.existsByLicensePlate(eq(car.getLicensePlate()))).thenReturn(false);
         CarDTO request = mapper.toDto(car);
 
         CarDTO response = subject.update(car.getId(), request, LOGIN);
@@ -90,11 +89,12 @@ public class CarServiceTest {
     }
 
     @Test
-    public void doNotUpdate_whenLicensePlateExists(){
+    public void update_whenLicensePlateIsEqualToRequest(){
         Car car = mockCarInstance();
         when(gateway.findById(eq(car.getId()), eq(LOGIN))).thenReturn(Optional.of(car));
-        when(gateway.existsByLicensePlate(eq(car.getLicensePlate()))).thenReturn(true);
         CarDTO request = mapper.toDto(car);
+        request.setLicensePlate("ABC1234");
+        when(gateway.existsByLicensePlate(eq(request.getLicensePlate()))).thenReturn(true);
 
         assertThrows(UniqueValueException.class, () -> subject.update(car.getId(), request, LOGIN));
     }

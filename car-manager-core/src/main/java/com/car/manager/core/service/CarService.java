@@ -52,16 +52,12 @@ public class CarService {
     }
 
     public CarResponseDTO update(long id, CarDTO requestDto, String login){
-        findByLoginAndIdorThrowInstanceNotFound(id, login);
-        throwUniqueValueException(requestDto.getLicensePlate());
+        Car car = findByLoginAndIdorThrowInstanceNotFound(id, login);
+        if(!requestDto.getLicensePlate().equals(car.getLicensePlate())) throwUniqueValueException(requestDto.getLicensePlate());
 
-        User user = new User();
-        user.setLogin(login);
-        Car instance = mapper.toDomain(requestDto);
-        instance.setUser(user);
-        instance.setId(id);
+        mapper.toDomainUpdate(car, requestDto);
 
-        return mapper.toDto(gateway.save(instance));
+        return mapper.toDto(gateway.save(car));
     }
 
     public void delete(long id, String login){
