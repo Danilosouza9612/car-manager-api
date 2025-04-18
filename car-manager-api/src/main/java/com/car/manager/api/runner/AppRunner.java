@@ -9,6 +9,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
+
 @Component
 public class AppRunner implements CommandLineRunner {
     private static Logger logger = LoggerFactory.getLogger(AppRunner.class);
@@ -25,11 +27,17 @@ public class AppRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        if(userRepository.existsByLogin("root")) return;
         String login = "root";
         String password = "123456";
 
         UserSchema userSchema = new UserSchema();
+        userSchema.setFirstName("root");
+        userSchema.setLastName("root");
+        userSchema.setPhone("12345678911");
+        userSchema.setEmail("root@mail.com");
         userSchema.setLogin("root");
+        userSchema.setBirthday(LocalDate.now());
         userSchema.setPassword(passwordEncoder.encode(password));
 
         userRepository.saveAndFlush(userSchema);

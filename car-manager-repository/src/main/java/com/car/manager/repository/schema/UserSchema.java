@@ -9,31 +9,27 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
+@Table(name = "users")
 public class UserSchema {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(length = 25)
     private String firstName;
 
-    @Column(length = 25)
     private String lastName;
 
     private URL photoPath;
 
-    @Column(length = 50)
     private String email;
 
-    @Column(length = 25, unique = true)
     private String login;
 
-    @Column
+    @Column(name = "birth_day")
     private LocalDate birthday;
 
     private String password;
 
-    @Column(length = 11)
     private String phone;
 
     @OneToMany(mappedBy = "userSchema", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})

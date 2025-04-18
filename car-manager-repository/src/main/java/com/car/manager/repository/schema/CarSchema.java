@@ -5,24 +5,23 @@ import jakarta.persistence.*;
 import java.net.URL;
 
 @Entity
+@Table(name = "cars")
 public class CarSchema {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(name = "car_year")
     private int year;
 
-    @Column(length = 7)
     private String licensePlate;
 
-    @Column(length = 20)
     private String model;
 
-    @Column(length = 20)
     private String color;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private UserSchema userSchema;
 
     private URL photoPath;
