@@ -1,5 +1,6 @@
 package com.car.manager.api.controller;
 
+import com.car.manager.api.dto.ImageUploadedDTO;
 import com.car.manager.core.dto.PageContent;
 import com.car.manager.core.dto.user.UserCreationRequestDTO;
 import com.car.manager.core.dto.user.UserDTO;
@@ -9,11 +10,15 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 public interface IUserController {
     static String MESSAGE_404 = "Instance not found";
     static String MESSAGE_409 = "Email or login already exists";
     static String MESSAGE_422 = "Invalid data";
+    static String MESSAGE_422_INVALID_FILE = "Only JPEG or PNG are allowed";
 
     @ApiResponses({
             @ApiResponse(responseCode = "200", content = {@Content(mediaType = "application/json")}),
@@ -46,4 +51,10 @@ public interface IUserController {
             @ApiResponse(responseCode = "404", description = MESSAGE_404, content = {@Content(mediaType = "application/json")})
     })
     ResponseEntity<Void> deleteUser(Long id);
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", content = {@Content(mediaType = "application/json")}),
+            @ApiResponse(responseCode = "404", description = MESSAGE_404, content = {@Content(mediaType = "application/json")}),
+            @ApiResponse(responseCode = "422", description = MESSAGE_422_INVALID_FILE, content = {@Content(mediaType = "application/json")})
+    })
+    ResponseEntity<ImageUploadedDTO> uploadPhoto(Long id, MultipartFile file) throws IOException;
 }

@@ -2,7 +2,9 @@ package com.car.manager.api.exception;
 
 import com.car.manager.api.dto.exception.ErrorDTO;
 import com.car.manager.core.exception.InstanceNotFoundException;
+import com.car.manager.core.exception.InvalidFileFormatException;
 import com.car.manager.core.exception.UniqueValueException;
+import com.car.manager.core.storage.FileStorageException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -17,12 +19,17 @@ public class AppExceptionHandler {
 
     private static String NOT_BLANK = "NotBlank";
 
-    @ExceptionHandler(value = InstanceNotFoundException.class)
+    @ExceptionHandler(value = {InstanceNotFoundException.class})
     public ResponseEntity<ErrorDTO> handleInstanceNotFoundException(InstanceNotFoundException ex){
         return new ResponseEntity<>(new ErrorDTO(ex.getMessage(), HttpStatus.NOT_FOUND.value()), HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler({MethodArgumentNotValidException.class})
+    @ExceptionHandler(value = FileStorageException.class)
+    public ResponseEntity<ErrorDTO> handleInstanceNotFoundException(FileStorageException ex){
+        return new ResponseEntity<>(new ErrorDTO(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value()), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(value = {MethodArgumentNotValidException.class})
     public ResponseEntity<Object> methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException exception){
         HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY;
         Optional<?> someBlankError = exception.getFieldErrors().stream().filter(item -> Objects.equals(item.getCode(), NOT_BLANK)).findFirst();
@@ -39,7 +46,12 @@ public class AppExceptionHandler {
     }
 
     @ExceptionHandler({UniqueValueException.class})
-    public ResponseEntity<Object> uniqueValueExceptionHandler(UniqueValueException ex){
+    public ResponseEntity<ErrorDTO> uniqueValueExceptionHandler(UniqueValueException ex){
         return new ResponseEntity<>(new ErrorDTO(ex.getMessage(), HttpStatus.CONFLICT.value()), HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler({InvalidFileFormatException.class})
+    public ResponseEntity<ErrorDTO> invalidFileFormatExceptionHandler(InvalidFileFormatException ex){
+        return new ResponseEntity<>(new ErrorDTO(ex.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY.value()), HttpStatus.UNPROCESSABLE_ENTITY);
     }
 }

@@ -1,0 +1,24 @@
+version: "3.8"
+services:
+  local_stack:
+    image: localstack/localstack:3.5.0
+    ports:
+      - 4566:4566
+      - 4571:4571
+    environment:
+      - SERVICES=s3
+      - AWS_SECRET_KEY=test
+      - AWS_ACCESS_KEY_ID=test
+      - AWS_SECRET_ACCESS_KEY=test
+      - PERSISTENCE=1
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./localstack.sh:/etc/localstack/init/ready.d/init-aws.sh
+    networks:
+      applocal:
+        ipv4_address: 169.0.0.20
+networks:
+  applocal:
+    ipam:
+      config:
+        - subnet: 169.0.0.0/24

@@ -28,27 +28,27 @@ public class CarDTO {
         this.year = year;
     }
 
-    public @NotBlank @Size(max = 7, min = 7) String getLicensePlate() {
+    public String getLicensePlate() {
         return licensePlate;
     }
 
-    public void setLicensePlate(@NotBlank @Size(max = 7, min = 7) String licensePlate) {
+    public void setLicensePlate(String licensePlate) {
         this.licensePlate = licensePlate;
     }
 
-    public @NotBlank @Size(max = 20) String getModel() {
+    public String getModel() {
         return model;
     }
 
-    public void setModel(@NotBlank @Size(max = 20) String model) {
+    public void setModel(String model) {
         this.model = model;
     }
 
-    public @NotBlank @Size(max = 20) String getColor() {
+    public String getColor() {
         return color;
     }
 
-    public void setColor(@NotBlank @Size(max = 20) String color) {
+    public void setColor( String color) {
         this.color = color;
     }
 }

@@ -1,9 +1,14 @@
 package com.car.manager.core.domain;
 
-public class Car {
-    private long id;
+import java.net.URL;
+import java.util.Optional;
+
+public class Car implements PhotoAvatarEntity{
+    private Long id;
 
     private int year;
+
+    private URL photoPath;
 
     private String licensePlate;
 
@@ -13,11 +18,11 @@ public class Car {
 
     private User user;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -59,5 +64,18 @@ public class Car {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public URL getPhotoPath(){
+        return photoPath;
+    }
+
+    public void setPhotoPath(URL photoPath) {
+        this.photoPath = photoPath;
+    }
+
+    @Override
+    public Optional<URL> getPhotoPathOptional() {
+        return Optional.ofNullable(getPhotoPath());
     }
 }

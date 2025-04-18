@@ -9,6 +9,7 @@ import com.car.manager.core.gateway.UserGateway;
 import com.car.manager.core.mapper.UserDTOMapper;
 import com.car.manager.core.mapper.UserDTOMapperImpl;
 import com.car.manager.core.security.PasswordEncryptor;
+import com.car.manager.core.storage.FileStorage;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,6 +31,9 @@ public class UserServiceTest {
     private UserGateway gateway;
 
     @Mock
+    private AvatarService avatarService;
+
+    @Mock
     private PasswordEncryptor passwordEncryptor;
 
     private UserDTOMapper mapper;
@@ -39,7 +43,7 @@ public class UserServiceTest {
     @BeforeEach
     public void setup(){
         this.mapper = new UserDTOMapperImpl();
-        this.subject = new UserService(gateway, mapper, passwordEncryptor);
+        this.subject = new UserService(gateway, mapper, passwordEncryptor, avatarService);
     }
 
     @Test

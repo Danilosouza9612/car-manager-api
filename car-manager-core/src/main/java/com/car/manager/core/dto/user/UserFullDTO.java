@@ -1,18 +1,30 @@
 package com.car.manager.core.dto.user;
 
 import com.car.manager.core.dto.car.CarDTO;
+import com.car.manager.core.dto.car.CarResponseDTO;
 
+import java.net.URL;
 import java.util.List;
 
 public class UserFullDTO extends UserDTO{
 
-    private List<CarDTO> cars;
+    private List<CarResponseDTO> cars;
 
-    public List<CarDTO> getCars() {
+    private URL photoPath;
+
+    public List<CarResponseDTO> getCars() {
         return cars;
     }
 
-    public void setCars(List<CarDTO> cars) {
+    public void setCars(List<CarResponseDTO> cars) {
         this.cars = cars;
+    }
+
+    public URL getPhotoPath() {
+        return photoPath;
+    }
+
+    public void setPhotoPath(URL photoPath) {
+        this.photoPath = photoPath;
     }
 }

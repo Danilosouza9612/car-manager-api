@@ -1,5 +1,6 @@
 package com.car.manager.core.service;
 
+import com.car.manager.core.Util;
 import com.car.manager.core.domain.User;
 import com.car.manager.core.dto.PageContent;
 import com.car.manager.core.dto.user.*;
@@ -8,12 +9,22 @@ import com.car.manager.core.exception.UniqueValueException;
 import com.car.manager.core.gateway.UserGateway;
 import com.car.manager.core.mapper.UserDTOMapper;
 import com.car.manager.core.security.PasswordEncryptor;
+import com.car.manager.core.storage.FileStorage;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.InvalidPropertiesFormatException;
+import java.util.List;
 import java.util.Optional;
 
 @Service
 public class UserService {
+
+    private static final String STORAGE_FOLDER = "Users";
+
+    private static final List<String> VALID_EXTENSIONS = List.of(".png", ".jpg", ".jpeg");
 
     private final UserGateway gateway;
 
@@ -21,10 +32,18 @@ public class UserService {
 
     private final PasswordEncryptor passwordEncryptor;
 
-    public UserService(UserGateway gateway, UserDTOMapper mapper, PasswordEncryptor passwordEncryptor){
+    private final AvatarService avatarService;
+
+    public UserService(
+            UserGateway gateway,
+            UserDTOMapper mapper,
+            PasswordEncryptor passwordEncryptor,
+            AvatarService avatarService
+    ){
         this.mapper = mapper;
         this.gateway = gateway;
         this.passwordEncryptor = passwordEncryptor;
+        this.avatarService = avatarService;
     }
 
     public UserFullDTO create(UserCreationRequestDTO requestDTO) {
@@ -74,6 +93,14 @@ public class UserService {
 
     public MeDTO me(String login){
         return gateway.findFullByLogin(login).map(mapper::toMeDto).orElseThrow(InstanceNotFoundException::new);
+    }
+
+    public URL uploadPhoto(Long id, InputStream inputStream, String extension) throws IOException {
+        avatarService.validateExtension(extension);
+        User user = findByIdOrThrowNotFoundException(id);
+        avatarService.uploadAvatar(user, inputStream, STORAGE_FOLDER, extension);
+
+        return gateway.save(user).getPhotoPath();
     }
 
     private User findByIdOrThrowNotFoundException(Long id){

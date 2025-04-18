@@ -25,7 +25,8 @@
 		<module>car-manager-api</module>
 		<module>car-manager-repository</module>
 		<module>car-manager-core</module>
-	</modules>
+        <module>car-manager-storage</module>
+    </modules>
 	<scm>
 		<connection/>
 		<developerConnection/>

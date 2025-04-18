@@ -1,5 +1,7 @@
 package com.car.manager.api.controller;
 
+import com.car.manager.api.Util;
+import com.car.manager.api.dto.ImageUploadedDTO;
 import com.car.manager.core.dto.PageContent;
 import com.car.manager.core.dto.user.UserCreationRequestDTO;
 import com.car.manager.core.dto.user.UserDTO;
@@ -8,8 +10,13 @@ import com.car.manager.core.dto.user.UserResponseDTO;
 import com.car.manager.core.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/users")
@@ -49,5 +56,12 @@ public class UserController implements IUserController{
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         userService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/{id}/upload_photo")
+    public ResponseEntity<ImageUploadedDTO> uploadPhoto(@PathVariable Long id, @RequestParam("file") MultipartFile file) throws IOException {
+        return new ResponseEntity<>(new ImageUploadedDTO(
+                userService.uploadPhoto(id, file.getInputStream(), Util.getExtension(Objects.requireNonNull(file.getContentType()))).toString()
+        ), HttpStatus.OK);
     }
 }

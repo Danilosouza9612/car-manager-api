@@ -8,6 +8,7 @@ import com.car.manager.core.exception.UniqueValueException;
 import com.car.manager.core.gateway.CarGateway;
 import com.car.manager.core.mapper.CarDTOMapper;
 import com.car.manager.core.mapper.CarDTOMapperImpl;
+import com.car.manager.core.storage.FileStorage;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,14 +31,18 @@ public class CarServiceTest {
     @Mock
     private CarGateway gateway;
 
+    @Mock
+    private AvatarService avatarService;
+
     private CarDTOMapper mapper;
 
     private CarService subject;
 
+
     @BeforeEach
     public void setup(){
         this.mapper = new CarDTOMapperImpl();
-        this.subject = new CarService(gateway, this.mapper);
+        this.subject = new CarService(gateway, this.mapper, avatarService);
     }
 
     @Test

@@ -9,17 +9,28 @@ import com.car.manager.core.exception.InstanceNotFoundException;
 import com.car.manager.core.exception.UniqueValueException;
 import com.car.manager.core.gateway.CarGateway;
 import com.car.manager.core.mapper.CarDTOMapper;
+import com.car.manager.core.storage.FileStorage;
 import org.springframework.stereotype.Service;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 
 @Service
 public class CarService {
-    protected CarGateway gateway;
+    private static final String STORAGE_FOLDER = "cars";
 
-    protected CarDTOMapper mapper;
+    private final CarGateway gateway;
 
-    public CarService(CarGateway gateway, CarDTOMapper mapper){
+    private final CarDTOMapper mapper;
+
+
+    private final AvatarService avatarService;
+
+    public CarService(CarGateway gateway, CarDTOMapper mapper, AvatarService avatarService){
         this.gateway = gateway;
         this.mapper = mapper;
+        this.avatarService = avatarService;
     }
 
     public PageContent<CarResponseDTO> list(int page, int perPage, String login){
@@ -41,7 +52,7 @@ public class CarService {
     }
 
     public CarResponseDTO update(long id, CarDTO requestDto, String login){
-        throwInstanceNotFound(id, login);
+        findByLoginAndIdorThrowInstanceNotFound(id, login);
         throwUniqueValueException(requestDto.getLicensePlate());
 
         User user = new User();
@@ -54,12 +65,20 @@ public class CarService {
     }
 
     public void delete(long id, String login){
-        throwInstanceNotFound(id, login);
+        findByLoginAndIdorThrowInstanceNotFound(id, login);
         gateway.delete(id);
     }
 
-    private void throwInstanceNotFound(long id, String login){
-        if(gateway.findById(id, login).isEmpty()) throw new InstanceNotFoundException();
+    public URL uploadPhoto(Long id, String login, InputStream inputStream, String extension) throws IOException {
+        avatarService.validateExtension(extension);
+        Car car = findByLoginAndIdorThrowInstanceNotFound(id, login);
+        avatarService.uploadAvatar(car, inputStream, STORAGE_FOLDER, extension);
+
+        return gateway.save(car).getPhotoPath();
+    }
+
+    private Car findByLoginAndIdorThrowInstanceNotFound(long id, String login){
+        return gateway.findById(id, login).orElseThrow(InstanceNotFoundException::new);
     }
 
     private void throwUniqueValueException(String licensePlate){

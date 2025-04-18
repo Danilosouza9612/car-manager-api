@@ -2,6 +2,8 @@ package com.car.manager.repository.schema;
 
 import jakarta.persistence.*;
 
+import java.net.URL;
+
 @Entity
 public class CarSchema {
     @Id
@@ -22,6 +24,8 @@ public class CarSchema {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private UserSchema userSchema;
+
+    private URL photoPath;
 
     public long getId() {
         return id;
@@ -69,5 +73,13 @@ public class CarSchema {
 
     public void setUserSchema(UserSchema userSchema) {
         this.userSchema = userSchema;
+    }
+
+    public URL getPhotoPath() {
+        return photoPath;
+    }
+
+    public void setPhotoPath(URL photoPath) {
+        this.photoPath = photoPath;
     }
 }

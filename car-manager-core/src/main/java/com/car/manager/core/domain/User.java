@@ -2,17 +2,21 @@ package com.car.manager.core.domain;
 
 import com.car.manager.core.security.PasswordEncryptor;
 
+import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
-public class User implements Domain<Long>{
+public class User implements Domain<Long>, PhotoAvatarEntity{
 
     private Long id;
 
     private String firstName;
 
     private String lastName;
+
+    private URL photoPath;
 
     private String email;
 
@@ -133,6 +137,18 @@ public class User implements Domain<Long>{
 
     public void updateLastLogin(){
         setLastLogin(LocalDateTime.now());
+    }
+
+    public URL getPhotoPath() {
+        return photoPath ;
+    }
+
+    public Optional<URL> getPhotoPathOptional(){
+        return Optional.ofNullable(getPhotoPath());
+    }
+
+    public void setPhotoPath(URL photoPath) {
+        this.photoPath = photoPath;
     }
 
     public void encryptPassword(PasswordEncryptor encryptor){
