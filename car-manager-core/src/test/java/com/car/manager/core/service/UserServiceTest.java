@@ -102,6 +102,7 @@ public class UserServiceTest {
     public void notUpdate_WhenEmailExists(){
         User user = mockUserInstance();
         UserCreationRequestDTO request = mapper.toUserCreationRequestDTO(user);
+        request.setEmail("test@mail.com");
         when(gateway.findById(eq(user.getId()))).thenReturn(Optional.of(user));
         when(gateway.existsByEmail(eq(request.getEmail()))).thenReturn(true);
 

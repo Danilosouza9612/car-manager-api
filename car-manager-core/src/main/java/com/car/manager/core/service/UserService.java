@@ -68,7 +68,7 @@ public class UserService {
 
     public UserResponseDTO update(Long id, UserDTO requestDTO) {
         User user = findByIdOrThrowNotFoundException(id);
-        throwUniqueExceptionIfExistsByEmail(requestDTO.getEmail());
+        if(!user.getEmail().equals(requestDTO.getEmail())) throwUniqueExceptionIfExistsByEmail(requestDTO.getEmail());
 
         mapper.toDomainUpdate(user, requestDTO);
 
