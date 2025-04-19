@@ -17,12 +17,11 @@ services:
       SPRING_DATASOURCE_PASSWORD: example
       SPRING_JPA_HIBERNATE_DDL-AUTO: create
       COM_CAR_MANAGER_API_JWT_KEY: 85ewwfe64e
+    command: ./run.sh
   db:
-    build: postgres
+    image: postgres
     environment:
       POSTGRES_PASSWORD: example
-    volumes:
-      - /db/init.sql:/docker-entrypoint-initdb.d/
     ports:
       - 5432:5432
     networks:

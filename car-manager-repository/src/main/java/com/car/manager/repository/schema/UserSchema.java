@@ -12,7 +12,7 @@ import java.util.List;
 @Table(name = "users")
 public class UserSchema {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue
     private long id;
 
     @Column(length = 25)
@@ -29,7 +29,7 @@ public class UserSchema {
     @Column(length = 25, unique = true)
     private String login;
 
-    @Column
+    @Column(name = "birth_day")
     private LocalDate birthday;
 
     private String password;

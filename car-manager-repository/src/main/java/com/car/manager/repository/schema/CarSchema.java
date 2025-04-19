@@ -8,7 +8,7 @@ import java.net.URL;
 @Table(name = "cars")
 public class CarSchema {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue
     private long id;
 
     @Column(name = "car_year")

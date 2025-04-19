@@ -62,10 +62,13 @@ docker compose exec db psql -U postgres
 CREATE DATABASE db_car_manager;
 ````
 
-Nas demais, apenas:
+Estou enfrentando problemas referente a execução local da aplicação. 
+Fora do ambiente da IDE, pelo comando do Maven, ele não encontra a classe Main. Já tentei várias configurações e nada
+
+Para testar:
 
 ````
-docker compose up
+./mvnw test
 ````
 
 ## Links
