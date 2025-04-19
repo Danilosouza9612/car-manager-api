@@ -1,22 +1,28 @@
-version: "3.8"
+version: "4"
 services:
   app:
-    image: danilosouza1896/car-manager-app:0.0.3
+    build: ./dev/
     ports:
       - 80:80
+    volumes:
+      - ./m2:/root/.m2
+      - .:/usr/src/app
     networks:
       - car-manager-net
     depends_on:
       - db
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/car_manager_db
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: 123456
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/db_car_manager
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: example
+      SPRING_JPA_HIBERNATE_DDL-AUTO: create
       COM_CAR_MANAGER_API_JWT_KEY: 85ewwfe64e
   db:
-    image: postgres:17-alpine
+    build: postgres
     environment:
-      POSTGRES_PASSWORD: 123456
+      POSTGRES_PASSWORD: example
+    volumes:
+      - /db/init.sql:/docker-entrypoint-initdb.d/
     ports:
       - 5432:5432
     networks:

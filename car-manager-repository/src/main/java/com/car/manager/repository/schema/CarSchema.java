@@ -8,16 +8,19 @@ import java.net.URL;
 @Table(name = "cars")
 public class CarSchema {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long id;
 
     @Column(name = "car_year")
     private int year;
 
+    @Column(length = 7)
     private String licensePlate;
 
+    @Column(length = 20)
     private String model;
 
+    @Column(length = 20)
     private String color;
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -12,24 +12,29 @@ import java.util.List;
 @Table(name = "users")
 public class UserSchema {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long id;
 
+    @Column(length = 25)
     private String firstName;
 
+    @Column(length = 25)
     private String lastName;
 
     private URL photoPath;
 
+    @Column(length = 50)
     private String email;
 
+    @Column(length = 25, unique = true)
     private String login;
 
-    @Column(name = "birth_day")
+    @Column
     private LocalDate birthday;
 
     private String password;
 
+    @Column(length = 11)
     private String phone;
 
     @OneToMany(mappedBy = "userSchema", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
